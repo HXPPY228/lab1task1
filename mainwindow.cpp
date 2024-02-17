@@ -4,18 +4,56 @@
 Door::Door(QWidget *parent) : QWidget(parent)
 {
     setFixedSize(200, 350);
+    isOpen =false;
+}
+
+Window::Window(QWidget *parent) : Door(parent)
+{
+    setFixedSize(200, 200);
+    isOpenWin =false;
 }
 
 void Door::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);
 
     int flagWidth = 200;
     int flagHeight = 350;
     QRect flagRect(0, 0, flagWidth, flagHeight);
 
-    painter.fillRect(flagRect, Qt::darkYellow);
+    painter.fillRect(flagRect, Qt::darkRed);
+}
+
+void Window::paintEvent(QPaintEvent *)
+{
+    QPainter painter(this);
+
+    int wWidth = 100;
+    int wHeight = 200;
+    QRect wRect(0, 0, wWidth, wHeight);
+
+    painter.fillRect(wRect, Qt::darkCyan);
+}
+
+void Window::paintEvent1(QPaintEvent *)
+{
+    QPainter painter(this);
+
+    int wWidth = 100;
+    int wHeight = 200;
+    QRect wRect(0, 0, wWidth, wHeight);
+
+    painter.fillRect(wRect, Qt::darkCyan);
+}
+
+void Door::toggle()
+{
+    isOpen=!isOpen;
+}
+
+void Window::togglew()
+{
+    isOpenWin=!isOpenWin;
 }
 
 MainWindow::MainWindow(QWidget *parent)
@@ -23,9 +61,12 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
     door = new Door(this);
     door -> move (450,150);
+    window1 = new Window(this);
+    window1 ->move (150,150);
+    window2 = new Window(this);
+    window2 -> move (250,150);
 }
 
 MainWindow::~MainWindow()
@@ -48,16 +89,56 @@ void MainWindow::paintEvent(QPaintEvent *)
     painter.setPen(Qt::black);
     painter.setBrush(Qt::white);
     painter.drawRect(449, 149, 201, 351);
-    painter.drawRect(150, 150, 200, 200);
+    painter.drawRect(149, 149, 201, 201);
 }
 
 
 void MainWindow::on_pushButton_clicked()
 {
+    if (!door->isOpen){
     QPropertyAnimation *animation = new QPropertyAnimation(door, "pos");
     animation->setDuration(1000);
     animation->setStartValue(door->pos());
-    animation->setEndValue(QPoint(door->x()+200, door->y()));
+    animation->setEndValue(QPoint(650, door->y()));
     animation->start(QAbstractAnimation::DeleteWhenStopped);
+    } else {
+        QPropertyAnimation *animation = new QPropertyAnimation(door, "pos");
+        animation->setDuration(1000);
+        animation->setStartValue(door->pos());
+        animation->setEndValue(QPoint(450, door->y()));
+        animation->start(QAbstractAnimation::DeleteWhenStopped);
+    }
+    door->toggle();
+}
+
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    if (!window1->isOpenWin){
+        QPropertyAnimation *animation = new QPropertyAnimation(window1, "pos");
+        animation->setDuration(1000);
+        animation->setStartValue(window1->pos());
+        animation->setEndValue(QPoint(50, window1->y()));
+        animation->start(QAbstractAnimation::DeleteWhenStopped);
+
+        QPropertyAnimation *animation1 = new QPropertyAnimation(window2, "pos");
+        animation1->setDuration(1000);
+        animation1->setStartValue(window2->pos());
+        animation1->setEndValue(QPoint(350, window2->y()));
+        animation1->start(QAbstractAnimation::DeleteWhenStopped);
+    } else {
+        QPropertyAnimation *animation = new QPropertyAnimation(window1, "pos");
+        animation->setDuration(1000);
+        animation->setStartValue(window1->pos());
+        animation->setEndValue(QPoint(150, window1->y()));
+        animation->start(QAbstractAnimation::DeleteWhenStopped);
+
+        QPropertyAnimation *animation1 = new QPropertyAnimation(window2, "pos");
+        animation1->setDuration(1000);
+        animation1->setStartValue(window2->pos());
+        animation1->setEndValue(QPoint(250, window2->y()));
+        animation1->start(QAbstractAnimation::DeleteWhenStopped);
+    }
+    window1->togglew();
 }
 

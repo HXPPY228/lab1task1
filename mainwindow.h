@@ -15,11 +15,25 @@ QT_END_NAMESPACE
 
 class Door : public QWidget
 {
+
     Q_OBJECT
 public:
     Door(QWidget *parent = nullptr);
+    bool isOpen;
+    void toggle();
 protected:
     void paintEvent(QPaintEvent *) override;
+};
+
+class Window : public Door
+{
+public:
+    Window(QWidget *parent = nullptr);
+    bool isOpenWin;
+    void togglew();
+protected:
+    void paintEvent(QPaintEvent *) override;
+    void paintEvent1(QPaintEvent *);
 };
 
 class MainWindow : public QMainWindow
@@ -34,11 +48,13 @@ public:
 private:
     Ui::MainWindow *ui;
     Door *door;
+    Window *window1 , *window2;
 
 protected:
     void paintEvent(QPaintEvent*) override;
 private slots:
     void on_pushButton_clicked();
+    void on_pushButton_2_clicked();
 };
 
 
