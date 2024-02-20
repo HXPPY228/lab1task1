@@ -1,61 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-Door::Door(QWidget *parent) : QWidget(parent)
-{
-    setFixedSize(200, 350);
-    isOpen =false;
-}
-
-Window::Window(QWidget *parent) : Door(parent)
-{
-    setFixedSize(200, 200);
-    isOpenWin =false;
-}
-
-void Door::paintEvent(QPaintEvent *)
-{
-    QPainter painter(this);
-
-    int flagWidth = 200;
-    int flagHeight = 350;
-    QRect flagRect(0, 0, flagWidth, flagHeight);
-
-    painter.fillRect(flagRect, Qt::darkRed);
-}
-
-void Window::paintEvent(QPaintEvent *)
-{
-    QPainter painter(this);
-
-    int wWidth = 100;
-    int wHeight = 200;
-    QRect wRect(0, 0, wWidth, wHeight);
-
-    painter.fillRect(wRect, Qt::darkCyan);
-}
-
-void Window::paintEvent1(QPaintEvent *)
-{
-    QPainter painter(this);
-
-    int wWidth = 100;
-    int wHeight = 200;
-    QRect wRect(0, 0, wWidth, wHeight);
-
-    painter.fillRect(wRect, Qt::darkCyan);
-}
-
-void Door::toggle()
-{
-    isOpen=!isOpen;
-}
-
-void Window::togglew()
-{
-    isOpenWin=!isOpenWin;
-}
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
